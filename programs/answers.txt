@@ -1,0 +1,35 @@
+1.)
+The value of variable x in the child process is the same as the parent process, 100. However, when the
+x variable is changed in both processes, they are different. This is because each process is its own
+instance of the program, and execute their own respective code.
+
+2.)
+Yes, both the parent and the child can access the file descriptor returned by open(), as seen in my
+programs output. When writing to a file at the same time writes may be out of order, intertwined,
+and don't reflect the structure of the program due to the nature of how processes execute.
+
+3.)
+Yes, you can ensure the child process always goes first without using wait(). However, it requires
+a different mechanism to control how processes execute and synchronize with each other. It is
+generally easier to just use wait() over other alternatives.
+
+4.)
+There are many variants of the same exec() call because there are many different use cases, and they
+require different ways to pass arguments. To compensate, these multiple different exec() calls exist
+in order to fill this niche without requiring the user to create their own version of exec(), as well
+as providing an efficient kernel-level approach to handling these cases.
+
+5.)
+wait() itself returns the PID of the executed child. Using wait() in the child will return -1 since it
+fails.
+
+6.)
+waitpid() might be useful when you want to coordinate different processes by waiting until others
+are completed or change state. For instance, if a process requires another to function, we may use
+waitpid() to wait for the needed process to finish. Then once the needed process finishes, begin the
+current process. waitpid() generally allows for more control over when and how processes execute.
+
+7.)
+After closing STDOUT_FILENO and then printing with printf, no output is displayed. This is because
+after STDOUT_FILENO is closed, printf will try to write to stdout but since it is closed, printf
+has no place to send the output, thus nothing is printed.

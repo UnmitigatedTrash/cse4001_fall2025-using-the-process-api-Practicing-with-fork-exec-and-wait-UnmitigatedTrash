@@ -1,0 +1,2 @@
+Written from parent process!
+Written from child process!
